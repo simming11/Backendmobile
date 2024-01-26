@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $result = ['name' => 'index' , 'payload' => Product::all()];
+        $result = ['name' => 'index', 'payload' => Product::all()];
         return $result;
     }
 
@@ -26,7 +26,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Product::create([
+            "product_name" => $request ->pd_name,
+            "product_type" => $request ->pd_type,
+            "price" => $request ->pd_price,
+        ]);
+        
+        return "Insert successfully.";
     }
 
     /**
@@ -37,7 +43,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $payload  = Product::find($id);
+        $payload = Product::find($id);
         return ['name' => 'show', 'payload' => $payload];
     }
 
@@ -51,6 +57,14 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $product = Product::findOrFail($id);
+
+        // Update the desired field
+        $product->product_name = $request-> pd_name ; // Replace 'column_name' with the actual column name in your table
+    
+        // Save the changes to the database
+        $product->save();
+        return "update successful.";
     }
 
     /**
@@ -62,5 +76,8 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        $product = Product::find($id);
+        $product -> delete();
+        return "delete sucessful";
     }
 }
