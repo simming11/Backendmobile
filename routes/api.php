@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Authcontroller;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -21,4 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('product',ProductController::class);
+Route::post("register",[Authcontroller::class,"register"]);
+Route::post("login",[Authcontroller::class,"login"]);
+
+Route::group(['middleware' => 'auth:sanctum'],function(){
+    Route::post("logout",[Authcontroller::class,"logout"]);
+    Route::resource('product',ProductController::class);
+
+});
