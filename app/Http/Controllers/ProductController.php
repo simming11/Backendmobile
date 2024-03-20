@@ -30,7 +30,7 @@ class ProductController extends Controller
         $fields = $request->validate([
             "pd_name" => "required|string",
             "pd_type" => "required|integer",
-            "pd_price" => "required|double"
+            "pd_price" => "required|numeric"
 
         ]);
 
@@ -64,16 +64,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Find the product by ID
         $product = Product::findOrFail($id);
-
-        // Update the desired field
-        $product->product_name = $request-> pd_name ; // Replace 'column_name' with the actual column name in your table
+    
+        // Update the desired fields
+        $product->product_name = $request->pd_name;
+        $product->product_type = $request->pd_type;
+        $product->price = $request->price;
     
         // Save the changes to the database
         $product->save();
-        return "update successful.";
+    
+        return "Update successful.";
     }
+    
 
     /**
      * Remove the specified resource from storage.

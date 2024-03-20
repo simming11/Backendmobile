@@ -40,12 +40,12 @@ class Authcontroller extends Controller
     {
 
         $fields = $request->validate([
-            'email' => 'required|string',
+            'name' => 'required|string',
             'password' => 'required|string',
         ]);
 
         // Check email
-        $user = User::where('email', $fields['email'])->first();
+        $user = User::where('name', $fields['name'])->first();
 
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
